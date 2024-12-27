@@ -1,0 +1,56 @@
+loop back ip addresses on all routers
+
+enable
+configure terminal
+interface loopback0
+ip address 192.168.0.1 255.255.255.255
+
+enable
+configure terminal
+interface loopback0
+ip address 192.168.0.2 255.255.255.255
+
+enable
+configure terminal
+interface loopback0
+ip address 192.168.0.3 255.255.255.255
+s
+enable
+configure terminal
+interface loopback0
+ip address 192.168.0.4 255.255.255.255
+
+enable
+configure terminal
+interface loopback0
+ip address 192.168.0.5 255.255.255.255
+
+
+show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol 
+FastEthernet0/0        10.1.1.2        YES manual up                    up 
+FastEthernet0/1        10.1.0.1        YES manual up                    up 
+FastEthernet1/0        unassigned      YES NVRAM  administratively down down 
+FastEthernet1/1        unassigned      YES NVRAM  administratively down down 
+Loopback0              192.168.0.3     YES manual up                    up 
+Vlan1                  unassigned      YES unset  administratively down down
+
+
+enable OSPF on the router and advertise the networks you desire to all the other routers 
+You can use different network statements, as long as they cover the range of IP
+addresses configured on the router interfaces.
+
+enable
+configure terminal
+router ospf 1
+network 10.0.0.0 0.255.255.255 area 0
+network 192.168.0.0 0.0.0.255 area 0
+
+
+4) Verify routers R1 to R5 have formed adjacencies with each other on all routers.
+show ip ospf neighbor
+
+
+5) change the router reference bandwidth speed on all routers  
+R1(config)#router ospf 1
+R1(config-router)#auto-cost reference-bandwidth 100000
